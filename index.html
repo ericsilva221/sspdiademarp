@@ -1,0 +1,1998 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <title>A Força Pública de São Paulo - Polícia Militar</title>
+    <link rel="icon" type="image/png" href="../images/Logo_PMESP.png">
+    <link rel="shortcut icon" type="image/png" href="../images/Logo_PMESP.png">
+    <script>
+        // Carrega tema ANTES do CSS para evitar flash
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                if (savedTheme === 'dark') {
+                    document.documentElement.classList.add('dark-mode');
+                }
+                const savedFontSize = localStorage.getItem('fontSize');
+                if (savedFontSize) {
+                    const size = parseInt(savedFontSize);
+                    if (!isNaN(size) && size >= 80 && size <= 150) {
+                        document.documentElement.style.fontSize = size + '%';
+                    }
+                }
+            } catch (e) { }
+        })();
+    </script>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <style>
+        #ie-edit-panel {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 10001 !important;
+        }
+
+        body>#ie-edit-panel:not([style*="position:fixed"]),
+        #ie-edit-panel:not([style*="position:fixed"]),
+        #ie-edit-panel[style*="position:static"],
+        #ie-edit-panel[style*="position:relative"],
+        #ie-edit-panel[style*="position:absolute"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            overflow: hidden !important;
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+        }
+
+        #ie-edit-panel {
+            max-height: 90vh !important;
+            overflow-y: auto !important;
+        }
+
+        body>div:last-child[id*="edit"]:not([style*="position:fixed"]) {
+            display: none !important;
+        }
+    </style>
+    <script>
+
+        (function () {
+            'use strict';
+
+            function removeAllEditPanels() {
+
+                const selectors = [
+                    '#ie-edit-panel',
+                    '[id*="ie-edit-panel"]',
+                    '[id*="edit-panel"]',
+                    '.ie-edit-panel'
+                ];
+
+                selectors.forEach(function (selector) {
+                    try {
+                        const elements = document.querySelectorAll(selector);
+                        elements.forEach(function (el) {
+                            const rect = el.getBoundingClientRect();
+                            const style = window.getComputedStyle(el);
+                            const inlineStyle = el.getAttribute('style') || '';
+
+                            const isFixed = style.position === 'fixed' && inlineStyle.includes('position:fixed');
+                            const isAtBottom = rect.top > window.innerHeight * 0.7;
+                            const isVisible = style.display !== 'none' && style.visibility !== 'hidden';
+
+                            if (!isFixed || isAtBottom || (isVisible && !isFixed)) {
+
+                                el.style.cssText = 'display:none!important;visibility:hidden!important;opacity:0!important;height:0!important;overflow:hidden!important;position:absolute!important;left:-9999px!important;top:-9999px!important;';
+
+                                setTimeout(function () {
+                                    if (el.parentNode) {
+                                        el.remove();
+                                    }
+                                }, 100);
+                            }
+                        });
+                    } catch (e) { }
+                });
+
+                const overlays = document.querySelectorAll('#ie-edit-overlay, [id*="ie-edit-overlay"]');
+                overlays.forEach(function (overlay) {
+                    const panel = document.getElementById('ie-edit-panel');
+                    if (!panel || !panel.parentNode) {
+                        overlay.remove();
+                    }
+                });
+
+                if (document.body && document.body.lastElementChild) {
+                    const lastChild = document.body.lastElementChild;
+                    if (lastChild.id && lastChild.id.includes('edit')) {
+                        const rect = lastChild.getBoundingClientRect();
+                        const style = window.getComputedStyle(lastChild);
+                        if (style.position !== 'fixed' && rect.top > window.innerHeight * 0.7) {
+                            lastChild.remove();
+                        }
+                    }
+                }
+            }
+
+            removeAllEditPanels();
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', removeAllEditPanels);
+            } else {
+                removeAllEditPanels();
+            }
+
+            window.addEventListener('load', removeAllEditPanels);
+
+            setInterval(removeAllEditPanels, 300);
+
+            if (document.body) {
+                const observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        mutation.addedNodes.forEach(function (node) {
+                            if (node.nodeType === 1) {
+
+                                if (node.id && (node.id.includes('ie-edit') || node.id.includes('edit-panel'))) {
+                                    setTimeout(removeAllEditPanels, 10);
+                                }
+
+                                if (node.querySelector) {
+                                    const panel = node.querySelector('#ie-edit-panel, [id*="ie-edit-panel"]');
+                                    if (panel) {
+                                        setTimeout(removeAllEditPanels, 10);
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            }
+
+            if (!document.body) {
+                const bodyObserver = new MutationObserver(function () {
+                    if (document.body) {
+                        removeAllEditPanels();
+                        bodyObserver.disconnect();
+                    }
+                });
+                bodyObserver.observe(document.documentElement, {
+                    childList: true,
+                    subtree: true
+                });
+            }
+        })();
+    </script>
+</head>
+
+<body>
+
+    <header class="top-header">
+        <div class="container">
+            <div class="top-header-content">
+                <div class="logo-governo" style="display: flex; align-items: center; gap: 15px;">
+                    <img src="images/ssp_fundobranco.png" alt="Secretaria da Segurança Pública" style="height: 80px; width: auto;">
+                    <div class="text-governo">
+                        <span class="sao-paulo">SÃO PAULO</span>
+                        <span class="governo">GOVERNO DO ESTADO</span>
+                        <span class="slogan">SÃO PAULO SÃO TODOS</span>
+                    </div>
+                </div>
+                <div class="top-header-right">
+                    <div class="accessibility">
+                        <button class="acc-btn" id="font-increase" aria-label="Aumentar fonte">A+</button>
+                        <button class="acc-btn" id="font-decrease" aria-label="Diminuir fonte">A-</button>
+                        <button class="acc-btn" id="alert" aria-label="Alertas">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </button>
+                        <button class="acc-btn" id="clear-cache" aria-label="Limpar cache" onclick="if(window.cacheManager) { window.cacheManager.clearAndReload(); } else { window.location.reload(true); }" title="Limpar cache e recarregar página">
+                            <i class="fas fa-broom"></i>
+                        </button>
+                    </div>
+                    <div class="servicos-pm">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Serviços ao PM</span>
+                    </div>
+                    <div class="user-auth-header">
+                        <a href="/login" id="header-login-btn" class="auth-link">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="/registro" id="header-register-btn" class="auth-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Criar Conta</span>
+                        </a>
+                        <div id="header-user-menu" class="user-menu-header" style="display: none;">
+                            <span class="user-name-header"></span>
+                            <a href="/T8mUcrZCHJvFf9zDqp72td2?panel=tickets" id="header-tickets-admin-link" class="auth-link" style="display: none;">
+                                <i class="fas fa-ticket-alt"></i>
+                                <span>Gerenciar Tickets</span>
+                            </a>
+                            <a href="/T8mUcrZCHJvFf9zDqp72td2" id="header-admin-link" class="auth-link" style="display: none;">
+                                <i class="fas fa-cog"></i>
+                                <span>Admin</span>
+                            </a>
+                            <a href="#" onclick="userProfile.openModal(); return false;" class="auth-link" id="header-edit-profile-link">
+                                <i class="fas fa-user-edit"></i>
+                                <span>Editar Perfil</span>
+                            </a>
+                            <a href="#" onclick="auth.logout(); return false;" class="auth-link">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Sair</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <header class="main-header" id="menu">
+        <div class="container">
+            <div class="main-header-content">
+                <div class="logo-pm">
+                    <div class="pm-emblem">
+                        <img src="images/Logo_PMESP.png" alt="Polícia Militar do Estado de São Paulo">
+                    </div>
+                    <div class="pm-text">
+                        <h1>A FORÇA PÚBLICA DE SÃO PAULO</h1>
+                        <p>Secretaria da Segurança Pública</p>
+                    </div>
+                </div>
+                <nav class="main-nav">
+                    <a href="#noticias">PORTAL DE NOTÍCIAS</a>
+                    <span class="nav-divider">|</span>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link-dropdown">INSTITUCIONAL</a>
+                        <div class="dropdown-menu">
+                            <a href="/organograma">Organograma</a>
+                            <a href="/insignias">Insígnias</a>
+                            <a href="/medalhas">Medalhas</a>
+                            <a href="/capacitacao">Capacitação e Treinamento</a>
+                            <a href="/legislacao">Legislação</a>
+                            <a href="/cancao-pm">Canção da PM</a>
+                        </div>
+                    </div>
+                    <span class="nav-divider">|</span>
+                    <div class="nav-dropdown">
+                        <a href="#" class="nav-link-dropdown">SERVIÇOS</a>
+                        <div class="dropdown-menu">
+                            <a href="/documentos">Documentos PMESP</a>
+                            <a href="/preencher-bopm">Preencher BOPM</a>
+                            <a href="/meus-tickets">Meus Tickets</a>
+                        </div>
+                    </div>
+                    <span class="nav-divider">|</span>
+                    <a href="/concursos">CONCURSOS</a>
+                    <span class="nav-divider">|</span>
+                    <a href="/diario-oficial">DIÁRIO OFICIAL</a>
+                    <span class="nav-divider">|</span>
+                    <a href="#" class="nav-link" onclick="const user = JSON.parse(localStorage.getItem('currentUser') || sessionStorage.getItem('currentUser') || '{}'); const role = (user.role || '').toLowerCase().trim(); const role2 = (user.role2 || '').toLowerCase().trim(); const isPolicial = role === 'policial' || role2 === 'policial'; if (isPolicial) { window.location.href = '/meus-processos'; return false; } else { window.location.href = '/corregedoria'; return false; }">CORREGEDORIA</a>
+                    <span class="nav-divider">|</span>
+                    <a href="#" class="nav-link" onclick="if(typeof window.openTicketsWidget === 'function') { window.openTicketsWidget(); return false; }">FALE
+                        CONOSCO</a>
+                </nav>
+                <button class="mobile-menu-toggle" aria-label="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="red-line"></div>
+        </div>
+    </header>
+
+    <section class="main-banner" id="content">
+        <div class="banner-background">
+            <div class="banner-pattern-left"></div>
+            <div class="banner-pattern-right"></div>
+        </div>
+        <div class="container">
+            <div class="banner-content">
+                <div class="banner-left">
+                    <div class="banner-emblem">
+                        <div class="banner-logo">
+                            <div class="banner-logo-text">POLÍCIA MILITAR</div>
+                            <div class="banner-200">
+                                <span class="rumo">RUMO AOS</span>
+                                <div class="number-200">200</div>
+                                <span class="anos">ANOS</span>
+                                <div class="arrow-right">→</div>
+                            </div>
+                        </div>
+                        <div class="banner-slogan">
+                            VAMOS TODOS JUNTOS. NINGUÉM FICA PARA TRÁS.
+                        </div>
+                        <div class="banner-indicators">
+                            <span class="indicator active"></span>
+                            <span class="indicator"></span>
+                            <span class="indicator"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="banner-right">
+                    <div class="site-verification">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Site de Roleplay</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pm-numbers">
+        <div class="container">
+            <div class="numbers-header">
+                <h2>PM EM NÚMEROS</h2>
+                <p class="numbers-period" id="numbers-period">(JANEIRO A DEZEMBRO DE 2026)</p>
+            </div>
+            <div class="numbers-grid" id="numbers-grid">
+
+            </div>
+            <div class="numbers-footer">
+                <a href="#" class="btn-ver-mais">Ver mais</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="latest-news" id="noticias">
+        <div class="container">
+            <div class="news-header">
+                <h2>ÚLTIMAS NOTÍCIAS</h2>
+                <div class="red-line-news"></div>
+            </div>
+            <div class="news-grid" id="news-grid">
+
+            </div>
+            <div class="pagination-container hidden" id="news-pagination">
+                <button class="pagination-btn" id="news-prev-btn" onclick="changeNewsPage(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Anterior</span>
+                </button>
+                <div class="pagination-page-numbers" id="news-page-numbers"></div>
+                <div class="pagination-info">
+                    <span id="news-page-info">Página 1 de 1</span>
+                </div>
+                <button class="pagination-btn" id="news-next-btn" onclick="changeNewsPage(1)">
+                    <span>Próxima</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="latest-news" id="videos-190">
+        <div class="container">
+            <div class="news-header">
+                <h2>Vídeo <strong>190</strong></h2>
+                <div class="red-line-news"></div>
+            </div>
+            <div class="news-grid" id="videos-190-grid">
+
+            </div>
+            <div class="pagination-container hidden" id="videos-pagination">
+                <button class="pagination-btn" id="videos-prev-btn" onclick="changeVideosPage(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Anterior</span>
+                </button>
+                <div class="pagination-page-numbers" id="videos-page-numbers"></div>
+                <div class="pagination-info">
+                    <span id="videos-page-info">Página 1 de 1</span>
+                </div>
+                <button class="pagination-btn" id="videos-next-btn" onclick="changeVideosPage(1)">
+                    <span>Próxima</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="activities cultural">
+        <div class="container">
+            <div class="activities-header">
+                <h2>Atividades <strong>Culturais</strong></h2>
+                <div class="red-line-news"></div>
+            </div>
+            <div class="activities-grid" id="cultural-activities-grid">
+
+            </div>
+            <div class="pagination-container hidden" id="cultural-pagination">
+                <button class="pagination-btn" id="cultural-prev-btn" onclick="changeCulturalPage(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Anterior</span>
+                </button>
+                <div class="pagination-page-numbers" id="cultural-page-numbers"></div>
+                <div class="pagination-info">
+                    <span id="cultural-page-info">Página 1 de 1</span>
+                </div>
+                <button class="pagination-btn" id="cultural-next-btn" onclick="changeCulturalPage(1)">
+                    <span>Próxima</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="activities-footer">
+                <a href="#" class="btn-ver-mais">VER MAIS</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="activities community">
+        <div class="container">
+            <div class="activities-header">
+                <h2>Atividades <strong>Comunitárias</strong></h2>
+                <div class="red-line-news"></div>
+            </div>
+            <div class="activities-grid" id="community-activities-grid">
+
+            </div>
+            <div class="pagination-container hidden" id="community-pagination">
+                <button class="pagination-btn" id="community-prev-btn" onclick="changeCommunityPage(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Anterior</span>
+                </button>
+                <div class="pagination-page-numbers" id="community-page-numbers"></div>
+                <div class="pagination-info">
+                    <span id="community-page-info">Página 1 de 1</span>
+                </div>
+                <button class="pagination-btn" id="community-next-btn" onclick="changeCommunityPage(1)">
+                    <span>Próxima</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="activities-footer">
+                <a href="#" class="btn-ver-mais">VER MAIS</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="activities education">
+        <div class="container">
+            <div class="activities-header">
+                <h2>Diretoria de <strong>Ensino</strong></h2>
+                <div class="red-line-news"></div>
+            </div>
+            <div class="activities-grid" id="education-activities-grid">
+
+            </div>
+            <div class="pagination-container hidden" id="education-pagination">
+                <button class="pagination-btn" id="education-prev-btn" onclick="changeEducationPage(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Anterior</span>
+                </button>
+                <div class="pagination-page-numbers" id="education-page-numbers"></div>
+                <div class="pagination-info">
+                    <span id="education-page-info">Página 1 de 1</span>
+                </div>
+                <button class="pagination-btn" id="education-next-btn" onclick="changeEducationPage(1)">
+                    <span>Próxima</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="activities-footer">
+                <a href="#" class="btn-ver-mais">VER MAIS</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/disable-console-logs.js"></script>
+    <script src="js/image-url-normalizer.js"></script>
+    <script src="js/theme-manager.js"></script>
+    <script src="js/lgpd-compliance.js"></script>
+    <script>
+        // Força inicialização do sistema LGPD
+        console.log('🔵 [LGPD] Script de inicialização carregado');
+
+        // Aguarda um pouco para garantir que a classe foi carregada
+        setTimeout(function () {
+            console.log('🔵 [LGPD] Verificando se lgpdCompliance existe:', typeof window.lgpdCompliance);
+
+            if (!window.lgpdCompliance && typeof LGPDCompliance !== 'undefined') {
+                console.log('🔵 [LGPD] Criando nova instância...');
+                window.lgpdCompliance = new LGPDCompliance();
+            }
+
+            // Força verificação após 500ms
+            setTimeout(function () {
+                if (window.lgpdCompliance) {
+                    console.log('🔵 [LGPD] Forçando verificação de consentimento...');
+                    window.lgpdCompliance.checkAndEnforceConsent();
+                } else {
+                    console.error('❌ [LGPD] lgpdCompliance não foi inicializado!');
+                }
+            }, 500);
+        }, 100);
+    </script>
+    <script src="js/script.js"></script>
+    <script src="js/init-database-php.js"></script>
+    <script src="js/database-api-php.js"></script>
+
+    <script src="js/cache-manager.js" defer=""></script>
+
+    <script src="js/auth.js"></script>
+    <script src="js/user-profile.js"></script>
+
+    <script src="js/news-manager-v2.js" defer=""></script>
+    <script src="js/activities-manager-v2.js" defer=""></script>
+    <script src="js/banner-manager-v2.js" defer=""></script>
+    <script src="js/pm-numbers-manager-v2.js" defer=""></script>
+    <script src="js/tickets-manager-v2.js" defer=""></script>
+    <script src="js/denuncias-manager.js" defer=""></script>
+    <script src="js/init-managers-v2.js" defer=""></script>
+    <script src="js/tickets-widget.js" defer=""></script>
+    <script src="js/tickets-notification.js" defer=""></script>
+    <script>
+
+        try {
+            // Ignorar erros de extensões do navegador
+            window.addEventListener('error', function (e) {
+                try {
+                    // Ignorar erros relacionados a extensões do navegador
+                    if (e && e.message && typeof e.message === 'string') {
+                        const message = e.message.toLowerCase();
+                        if (message.includes('listener indicated an asynchronous response') ||
+                            message.includes('message channel closed') ||
+                            message.includes('extension') ||
+                            message.includes('chrome-extension') ||
+                            message.includes('moz-extension') ||
+                            message.includes('ERR_INVALID_URL') ||
+                            message.includes('net::ERR_INVALID_URL')) {
+                            return;
+                        }
+                    }
+
+                    // Ignorar erros de recursos inexistentes do HostGator
+                    if (e && e.target) {
+                        const src = e.target.src || e.target.href || '';
+                        if (src.includes('cgi-sys') ||
+                            src.includes('logo-403-page') ||
+                            src.includes('favicon.png')) {
+                            return;
+                        }
+                    }
+
+                    if (e && e.message && typeof e.message === 'string' && (e.message.includes('ERR_INVALID_URL') || e.message.includes('net::ERR_INVALID_URL'))) {
+                        return;
+                    }
+
+                    if (e && e.target && e.target.tagName === 'IMG' && e.target.src && e.target.src.startsWith('data:') && e.target.src.length > 2000000) {
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'news-placeholder';
+                        placeholder.innerHTML = '<i class="fas fa-newspaper"></i>';
+                        if (e.target.parentElement) {
+                            e.target.parentElement.innerHTML = '';
+                            e.target.parentElement.appendChild(placeholder);
+                        }
+                        return;
+                    }
+                } catch (err) {
+                    // Silenciar erros no handler de erros
+                }
+            }, true);
+
+            // Ignorar rejeições de promises relacionadas a extensões
+            window.addEventListener('unhandledrejection', function (e) {
+                try {
+                    if (e && e.reason) {
+                        const reason = String(e.reason).toLowerCase();
+                        if (reason.includes('listener indicated an asynchronous response') ||
+                            reason.includes('message channel closed') ||
+                            reason.includes('extension')) {
+                            e.preventDefault();
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    // Silenciar erros
+                }
+            });
+        } catch (err) {
+            // Silenciar erros na configuração de handlers
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function sanitizeUrl(url) {
+            if (!url) return '';
+
+            if (url.toLowerCase().startsWith('javascript:') ||
+                (url.toLowerCase().startsWith('data:') && !url.toLowerCase().startsWith('data:image/'))) {
+                return '';
+            }
+            return url;
+        }
+
+        // Variáveis de paginação
+        let newsCurrentPage = 1;
+        let videosCurrentPage = 1;
+        let culturalCurrentPage = 1;
+        let communityCurrentPage = 1;
+        let educationCurrentPage = 1;
+        const itemsPerPage = 3;
+
+        function updateNewsPagination(totalItems, currentPage) {
+            const paginationContainer = document.getElementById('news-pagination');
+            const prevBtn = document.getElementById('news-prev-btn');
+            const nextBtn = document.getElementById('news-next-btn');
+            const pageInfo = document.getElementById('news-page-info');
+            const pageNumbers = document.getElementById('news-page-numbers');
+
+            if (!paginationContainer) return;
+
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            if (totalItems > itemsPerPage) {
+                paginationContainer.classList.remove('hidden');
+                pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+
+                // Gerar números de página
+                if (pageNumbers) {
+                    let pageNumbersHTML = '';
+                    const maxVisiblePages = 5;
+                    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                    if (endPage - startPage < maxVisiblePages - 1) {
+                        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                    }
+
+                    if (startPage > 1) {
+                        pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToNewsPage(1)">1</button>`;
+                        if (startPage > 2) {
+                            pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                        }
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        pageNumbersHTML += `<button class="pagination-page-btn ${i === currentPage ? 'active' : ''}" onclick="goToNewsPage(${i})">${i}</button>`;
+                    }
+
+                    if (endPage < totalPages) {
+                        if (endPage < totalPages - 1) {
+                            pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                        }
+                        pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToNewsPage(${totalPages})">${totalPages}</button>`;
+                    }
+
+                    pageNumbers.innerHTML = pageNumbersHTML;
+                }
+            } else {
+                paginationContainer.classList.add('hidden');
+            }
+        }
+
+        function goToNewsPage(page) {
+            const manager = newsManagerV2;
+            if (typeof manager === 'undefined') return;
+
+            const news = manager.getAllNews();
+            const newsOnly = news.filter(item => !item.type || item.type === 'news' || item.type === null);
+            const totalPages = Math.ceil(newsOnly.length / itemsPerPage);
+
+            if (page >= 1 && page <= totalPages) {
+                newsCurrentPage = page;
+                loadNewsOnPage();
+            }
+        }
+        window.goToNewsPage = goToNewsPage;
+
+        function changeNewsPage(direction) {
+            const manager = newsManagerV2;
+            if (typeof manager === 'undefined') return;
+
+            const news = manager.getAllNews();
+            const newsOnly = news.filter(item => !item.type || item.type === 'news' || item.type === null);
+            const totalPages = Math.ceil(newsOnly.length / itemsPerPage);
+
+            newsCurrentPage += direction;
+            if (newsCurrentPage < 1) newsCurrentPage = 1;
+            if (newsCurrentPage > totalPages) newsCurrentPage = totalPages;
+
+            loadNewsOnPage();
+        }
+        window.changeNewsPage = changeNewsPage;
+
+        async function loadNewsOnPage() {
+            const newsGrid = document.getElementById('news-grid');
+            if (!newsGrid) return;
+
+            const manager = newsManagerV2;
+
+            if (typeof manager === 'undefined') {
+                setTimeout(loadNewsOnPage, 100);
+                return;
+            }
+
+            if (typeof dbAPI !== 'undefined' && !dbAPI.useLocalStorage) {
+                try {
+                    await manager.loadFromDatabase();
+                } catch (error) {
+                }
+            }
+
+            const news = manager.getAllNews();
+
+            if (news.length > 0) {
+
+                const newsOnly = news.filter(item => !item.type || item.type === 'news' || item.type === null);
+                const totalItems = newsOnly.length;
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+                if (newsCurrentPage > totalPages) newsCurrentPage = totalPages;
+                if (newsCurrentPage < 1) newsCurrentPage = 1;
+
+                const startIndex = (newsCurrentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const paginatedNews = newsOnly.slice(startIndex, endIndex);
+
+                newsGrid.innerHTML = paginatedNews.map((newsItem, index) => {
+                    const imageUrl = sanitizeUrl(newsItem.image || '');
+
+                    const hasImage = imageUrl && imageUrl.length > 0 && !imageUrl.includes('placeholder');
+
+                    const MAX_DATA_URL_LENGTH = 2000000;
+                    const isDataUrlTooLarge = imageUrl.startsWith('data:') && imageUrl.length > MAX_DATA_URL_LENGTH;
+
+                    let imageSrc = '';
+                    if (hasImage && !isDataUrlTooLarge) {
+                        if (imageUrl.startsWith('data:image/')) {
+                            imageSrc = imageUrl;
+                        } else {
+
+                            imageSrc = sanitizeUrl(imageUrl) + (imageUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
+                        }
+                    } else {
+                        if (!hasImage) {
+                        } else if (isDataUrlTooLarge) {
+                        }
+                    }
+
+                    const safeTitle = escapeHtml(newsItem.title || '');
+                    const safeDescription = escapeHtml(newsItem.description || '');
+                    const safeDate = escapeHtml(newsItem.date || newsItem.created_at || '');
+
+                    return `
+                        <article class="news-item">
+                            <div class="news-image">
+                                ${hasImage && !isDataUrlTooLarge && imageSrc ?
+                            `<img src="${escapeHtml(imageSrc)}" alt="${safeTitle}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'news-placeholder\\'><i class=\\'fas fa-newspaper\\'></i></div>'">` :
+                            `<div class="news-placeholder"><i class="fas fa-newspaper"></i></div>`
+                        }
+                            </div>
+                            <div class="news-content">
+                                <h3>${safeTitle}</h3>
+                                <p>${safeDescription}</p>
+                                <span class="news-date">${safeDate}</span>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+                updateNewsPagination(totalItems, newsCurrentPage);
+            } else {
+                updateNewsPagination(0, 1);
+            }
+        }
+
+        function updateVideosPagination(totalItems, currentPage) {
+            const paginationContainer = document.getElementById('videos-pagination');
+            const prevBtn = document.getElementById('videos-prev-btn');
+            const nextBtn = document.getElementById('videos-next-btn');
+            const pageInfo = document.getElementById('videos-page-info');
+            const pageNumbers = document.getElementById('videos-page-numbers');
+
+            if (!paginationContainer) return;
+
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            if (totalItems > itemsPerPage) {
+                paginationContainer.classList.remove('hidden');
+                pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+
+                // Gerar números de página
+                if (pageNumbers) {
+                    let pageNumbersHTML = '';
+                    const maxVisiblePages = 5;
+                    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                    if (endPage - startPage < maxVisiblePages - 1) {
+                        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                    }
+
+                    if (startPage > 1) {
+                        pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToVideosPage(1)">1</button>`;
+                        if (startPage > 2) {
+                            pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                        }
+                    }
+
+                    for (let i = startPage; i <= endPage; i++) {
+                        pageNumbersHTML += `<button class="pagination-page-btn ${i === currentPage ? 'active' : ''}" onclick="goToVideosPage(${i})">${i}</button>`;
+                    }
+
+                    if (endPage < totalPages) {
+                        if (endPage < totalPages - 1) {
+                            pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                        }
+                        pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToVideosPage(${totalPages})">${totalPages}</button>`;
+                    }
+
+                    pageNumbers.innerHTML = pageNumbersHTML;
+                }
+            } else {
+                paginationContainer.classList.add('hidden');
+            }
+        }
+
+        function goToVideosPage(page) {
+            const manager = newsManagerV2;
+            if (typeof manager === 'undefined') return;
+
+            const allNews = manager.getAllNews();
+            const videos = allNews.filter(item => item.type === 'video' && item.video_url);
+            const totalPages = Math.ceil(videos.length / itemsPerPage);
+
+            if (page >= 1 && page <= totalPages) {
+                videosCurrentPage = page;
+                loadVideosOnPage();
+            }
+        }
+        window.goToVideosPage = goToVideosPage;
+
+        function changeVideosPage(direction) {
+            const manager = newsManagerV2;
+            if (typeof manager === 'undefined') return;
+
+            const allNews = manager.getAllNews();
+            const videos = allNews.filter(item => item.type === 'video' && item.video_url);
+            const totalPages = Math.ceil(videos.length / itemsPerPage);
+
+            videosCurrentPage += direction;
+            if (videosCurrentPage < 1) videosCurrentPage = 1;
+            if (videosCurrentPage > totalPages) videosCurrentPage = totalPages;
+
+            loadVideosOnPage();
+        }
+        window.changeVideosPage = changeVideosPage;
+
+        async function loadVideosOnPage() {
+            const videosGrid = document.getElementById('videos-190-grid');
+            if (!videosGrid) return;
+
+            const manager = newsManagerV2;
+
+            if (typeof manager === 'undefined') {
+                setTimeout(loadVideosOnPage, 100);
+                return;
+            }
+
+            if (typeof dbAPI !== 'undefined' && !dbAPI.useLocalStorage) {
+                try {
+                    await manager.loadFromDatabase();
+                } catch (error) {
+                }
+            }
+
+            const allNews = manager.getAllNews();
+
+            const videos = allNews.filter(item => item.type === 'video' && item.video_url);
+
+            if (videos.length > 0) {
+                const totalItems = videos.length;
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+                if (videosCurrentPage > totalPages) videosCurrentPage = totalPages;
+                if (videosCurrentPage < 1) videosCurrentPage = 1;
+
+                const startIndex = (videosCurrentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const paginatedVideos = videos.slice(startIndex, endIndex);
+
+                videosGrid.innerHTML = paginatedVideos.map((videoItem, index) => {
+
+                    let videoId = null;
+                    const videoUrl = sanitizeUrl(videoItem.video_url || '');
+                    const patterns = [
+                        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+                        /youtube\.com\/watch\?.*v=([^&\n?#]+)/
+                    ];
+
+                    for (const pattern of patterns) {
+                        const match = videoUrl.match(pattern);
+                        if (match && match[1]) {
+
+                            const cleanId = match[1].replace(/[^a-zA-Z0-9_-]/g, '');
+                            if (cleanId) {
+                                videoId = cleanId;
+                                break;
+                            }
+                        }
+                    }
+
+                    const embedUrl = videoId ? `https://www.youtube.com/embed/${escapeHtml(videoId)}` : '';
+
+                    const safeTitle = escapeHtml(videoItem.title || '');
+                    const safeDescription = escapeHtml(videoItem.description || '');
+                    const safeDate = escapeHtml(videoItem.date || videoItem.created_at || '');
+
+                    return `
+                        <article class="news-item">
+                            <div class="news-image" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                ${embedUrl ?
+                            `<iframe src="${embedUrl}" width="100%" height="100%" style="position: absolute; top: 0; left: 0; border: none;" allowfullscreen></iframe>` :
+                            `<div class="news-placeholder" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"><i class="fas fa-video"></i></div>`
+                        }
+                            </div>
+                            <div class="news-content">
+                                <h3>${safeTitle}</h3>
+                                <p>${safeDescription}</p>
+                                <span class="news-date">${safeDate}</span>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+                updateVideosPagination(totalItems, videosCurrentPage);
+            } else {
+                videosGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                        <i class="fas fa-video" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3;"></i>
+                        <p>Nenhum vídeo disponível no momento</p>
+                    </div>
+                `;
+                updateVideosPagination(0, 1);
+            }
+        }
+
+        function checkCoordopButton() {
+            try {
+                const user = auth.getCurrentUser();
+                if (user) {
+
+                    const normalizeRole = (r) => {
+                        if (!r) return null;
+                        let normalized = String(r).toLowerCase().trim();
+                        normalized = normalized.replace(/\s+/g, '').replace(/_/g, '/');
+                        if (normalized === 'em/pm' || normalized === 'em_pm' || normalized === 'empm') {
+                            normalized = 'em/pm';
+                        }
+                        return normalized;
+                    };
+
+                    const role = normalizeRole(user.role);
+                    const role2 = normalizeRole(user.role2);
+
+                    const ticketRoles = ['corregedoria', 'gcg', 'em/pm', 'dec', 'coordop', 'ssp', 'admin'];
+
+                    const adminRoles = ['admin', 'ssp', 'governador', 'comandante', 'p5', 'rf'];
+
+                    const hasTicketAccess = (role && ticketRoles.includes(role)) ||
+                        (role2 && ticketRoles.includes(role2));
+
+                    const hasAdminAccess = (role && adminRoles.includes(role)) ||
+                        (role2 && adminRoles.includes(role2));
+
+                    if (hasTicketAccess) {
+                        const ticketsBtn = document.getElementById('header-tickets-admin-link');
+                        if (ticketsBtn) {
+                            ticketsBtn.style.display = 'flex';
+                            ticketsBtn.style.visibility = 'visible';
+                            ticketsBtn.removeAttribute('hidden');
+
+                            const observer = new MutationObserver(function (mutations) {
+                                mutations.forEach(function (mutation) {
+                                    if (mutation.type === 'attributes' &&
+                                        (mutation.attributeName === 'style' || mutation.attributeName === 'hidden')) {
+                                        const currentBtn = document.getElementById('header-tickets-admin-link');
+                                        if (currentBtn && (currentBtn.style.display === 'none' || currentBtn.hasAttribute('hidden'))) {
+                                            currentBtn.style.display = 'flex';
+                                            currentBtn.style.visibility = 'visible';
+                                            currentBtn.removeAttribute('hidden');
+                                        }
+                                    }
+                                });
+                            });
+
+                            observer.observe(ticketsBtn, {
+                                attributes: true,
+                                attributeFilter: ['style', 'hidden']
+                            });
+                        }
+                    }
+
+                    if (hasAdminAccess) {
+                        const adminBtn = document.getElementById('header-admin-link');
+                        if (adminBtn) {
+                            adminBtn.style.display = 'flex';
+                            adminBtn.style.visibility = 'visible';
+                            adminBtn.removeAttribute('hidden');
+
+                            const observer = new MutationObserver(function (mutations) {
+                                mutations.forEach(function (mutation) {
+                                    if (mutation.type === 'attributes' &&
+                                        (mutation.attributeName === 'style' || mutation.attributeName === 'hidden')) {
+                                        const currentBtn = document.getElementById('header-admin-link');
+                                        if (currentBtn && (currentBtn.style.display === 'none' || currentBtn.hasAttribute('hidden'))) {
+                                            currentBtn.style.display = 'flex';
+                                            currentBtn.style.visibility = 'visible';
+                                            currentBtn.removeAttribute('hidden');
+                                        }
+                                    }
+                                });
+                            });
+
+                            observer.observe(adminBtn, {
+                                attributes: true,
+                                attributeFilter: ['style', 'hidden']
+                            });
+                        }
+                    }
+                }
+            } catch (e) {
+
+            }
+        }
+
+        setTimeout(checkCoordopButton, 100);
+        setTimeout(checkCoordopButton, 500);
+        setTimeout(checkCoordopButton, 1000);
+        setTimeout(checkCoordopButton, 2000);
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkCoordopButton);
+        } else {
+            checkCoordopButton();
+        }
+
+        (function () {
+            function removeAllEditToolbars() {
+
+                const toolbars = document.querySelectorAll('#inline-editor-toolbar, [id*="inline-editor"], [id*="ie-edit"]');
+                toolbars.forEach(tb => {
+                    if (tb && tb.parentNode) {
+                        tb.remove();
+                    }
+                });
+
+                const styles = document.querySelectorAll('#inline-editor-styles, [id*="inline-editor-styles"]');
+                styles.forEach(s => {
+                    if (s && s.parentNode) {
+                        s.remove();
+                    }
+                });
+            }
+
+            removeAllEditToolbars();
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', removeAllEditToolbars);
+            } else {
+                removeAllEditToolbars();
+            }
+
+            setInterval(removeAllEditToolbars, 2000);
+
+            if (document.body) {
+                const observer = new MutationObserver(function (mutations) {
+                    mutations.forEach(function (mutation) {
+                        mutation.addedNodes.forEach(function (node) {
+                            if (node.nodeType === 1) {
+                                if (node.id && (node.id.includes('inline-editor') || node.id.includes('ie-edit'))) {
+                                    setTimeout(() => {
+                                        if (node.parentNode) node.remove();
+                                    }, 100);
+                                }
+                            }
+                        });
+                    });
+                });
+
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+            }
+        })();
+
+        (function () {
+            const removeEditPanels = function () {
+
+                const allPanels = document.querySelectorAll('#ie-edit-panel');
+                allPanels.forEach(panel => {
+                    const style = window.getComputedStyle(panel);
+                    const rect = panel.getBoundingClientRect();
+
+                    if (style.position !== 'fixed' ||
+                        rect.top > window.innerHeight ||
+                        rect.bottom < 0 ||
+                        (rect.top > 0 && rect.top < window.innerHeight && style.position !== 'fixed')) {
+                        panel.remove();
+
+                        const overlay = document.getElementById('ie-edit-overlay');
+                        if (overlay) overlay.remove();
+                    }
+                });
+
+                const overlays = document.querySelectorAll('#ie-edit-overlay');
+                overlays.forEach(overlay => {
+                    const panel = document.getElementById('ie-edit-panel');
+                    if (!panel) {
+                        overlay.remove();
+                    }
+                });
+            };
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', removeEditPanels);
+            } else {
+                removeEditPanels();
+            }
+
+            setInterval(removeEditPanels, 2000);
+
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    mutation.addedNodes.forEach(function (node) {
+                        if (node.nodeType === 1 && node.id === 'ie-edit-panel') {
+                            const style = window.getComputedStyle(node);
+                            const rect = node.getBoundingClientRect();
+
+                            if (style.position !== 'fixed' || rect.top > window.innerHeight) {
+                                setTimeout(() => {
+                                    if (node.parentNode) {
+                                        node.remove();
+                                        const overlay = document.getElementById('ie-edit-overlay');
+                                        if (overlay) overlay.remove();
+                                    }
+                                }, 100);
+                            }
+                        }
+                    });
+                });
+            });
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function () {
+                    observer.observe(document.body, { childList: true, subtree: true });
+                });
+            } else {
+                observer.observe(document.body, { childList: true, subtree: true });
+            }
+        })();
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            if (typeof window.closeEditPanel === 'function') {
+                window.closeEditPanel();
+            } else {
+                const existingEditPanel = document.getElementById('ie-edit-panel');
+                const existingOverlay = document.getElementById('ie-edit-overlay');
+                if (existingEditPanel) existingEditPanel.remove();
+                if (existingOverlay) existingOverlay.remove();
+            }
+
+            checkCoordopButton();
+
+            setTimeout(loadNewsOnPage, 200);
+
+            setTimeout(loadNewsOnPage, 1000);
+
+            setTimeout(loadVideosOnPage, 200);
+            setTimeout(loadVideosOnPage, 1000);
+
+            function updateCulturalPagination(totalItems, currentPage) {
+                const paginationContainer = document.getElementById('cultural-pagination');
+                const prevBtn = document.getElementById('cultural-prev-btn');
+                const nextBtn = document.getElementById('cultural-next-btn');
+                const pageInfo = document.getElementById('cultural-page-info');
+                const pageNumbers = document.getElementById('cultural-page-numbers');
+
+                if (!paginationContainer) return;
+
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+                if (totalItems > itemsPerPage) {
+                    paginationContainer.classList.remove('hidden');
+                    pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+                    prevBtn.disabled = currentPage === 1;
+                    nextBtn.disabled = currentPage === totalPages;
+
+                    // Gerar números de página
+                    if (pageNumbers) {
+                        let pageNumbersHTML = '';
+                        const maxVisiblePages = 5;
+                        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                        if (endPage - startPage < maxVisiblePages - 1) {
+                            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                        }
+
+                        if (startPage > 1) {
+                            pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToCulturalPage(1)">1</button>`;
+                            if (startPage > 2) {
+                                pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                            }
+                        }
+
+                        for (let i = startPage; i <= endPage; i++) {
+                            pageNumbersHTML += `<button class="pagination-page-btn ${i === currentPage ? 'active' : ''}" onclick="goToCulturalPage(${i})">${i}</button>`;
+                        }
+
+                        if (endPage < totalPages) {
+                            if (endPage < totalPages - 1) {
+                                pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                            }
+                            pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToCulturalPage(${totalPages})">${totalPages}</button>`;
+                        }
+
+                        pageNumbers.innerHTML = pageNumbersHTML;
+                    }
+                } else {
+                    paginationContainer.classList.add('hidden');
+                }
+            }
+
+            function goToCulturalPage(page) {
+                const manager = activitiesManagerV2;
+                if (typeof manager === 'undefined') return;
+
+                const allActivities = manager.getAllActivities();
+                const culturalActivities = allActivities.filter(a => a.type === 'cultural');
+                const totalPages = Math.ceil(culturalActivities.length / itemsPerPage);
+
+                if (page >= 1 && page <= totalPages) {
+                    culturalCurrentPage = page;
+                    loadActivitiesOnPage();
+                }
+            }
+            window.goToCulturalPage = goToCulturalPage;
+
+            function changeCulturalPage(direction) {
+                const manager = activitiesManagerV2;
+                if (typeof manager === 'undefined') return;
+
+                const allActivities = manager.getAllActivities();
+                const culturalActivities = allActivities.filter(a => a.type === 'cultural');
+                const totalPages = Math.ceil(culturalActivities.length / itemsPerPage);
+
+                culturalCurrentPage += direction;
+                if (culturalCurrentPage < 1) culturalCurrentPage = 1;
+                if (culturalCurrentPage > totalPages) culturalCurrentPage = totalPages;
+
+                loadActivitiesOnPage();
+            }
+            window.changeCulturalPage = changeCulturalPage;
+
+            function updateCommunityPagination(totalItems, currentPage) {
+                const paginationContainer = document.getElementById('community-pagination');
+                const prevBtn = document.getElementById('community-prev-btn');
+                const nextBtn = document.getElementById('community-next-btn');
+                const pageInfo = document.getElementById('community-page-info');
+                const pageNumbers = document.getElementById('community-page-numbers');
+
+                if (!paginationContainer) return;
+
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+                if (totalItems > itemsPerPage) {
+                    paginationContainer.classList.remove('hidden');
+                    pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+                    prevBtn.disabled = currentPage === 1;
+                    nextBtn.disabled = currentPage === totalPages;
+
+                    // Gerar números de página
+                    if (pageNumbers) {
+                        let pageNumbersHTML = '';
+                        const maxVisiblePages = 5;
+                        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                        if (endPage - startPage < maxVisiblePages - 1) {
+                            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                        }
+
+                        if (startPage > 1) {
+                            pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToCommunityPage(1)">1</button>`;
+                            if (startPage > 2) {
+                                pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                            }
+                        }
+
+                        for (let i = startPage; i <= endPage; i++) {
+                            pageNumbersHTML += `<button class="pagination-page-btn ${i === currentPage ? 'active' : ''}" onclick="goToCommunityPage(${i})">${i}</button>`;
+                        }
+
+                        if (endPage < totalPages) {
+                            if (endPage < totalPages - 1) {
+                                pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                            }
+                            pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToCommunityPage(${totalPages})">${totalPages}</button>`;
+                        }
+
+                        pageNumbers.innerHTML = pageNumbersHTML;
+                    }
+                } else {
+                    paginationContainer.classList.add('hidden');
+                }
+            }
+
+            function goToCommunityPage(page) {
+                const manager = activitiesManagerV2;
+                if (typeof manager === 'undefined') return;
+
+                const allActivities = manager.getAllActivities();
+                const communityActivities = allActivities.filter(a => a.type === 'community');
+                const totalPages = Math.ceil(communityActivities.length / itemsPerPage);
+
+                if (page >= 1 && page <= totalPages) {
+                    communityCurrentPage = page;
+                    loadActivitiesOnPage();
+                }
+            }
+            window.goToCommunityPage = goToCommunityPage;
+
+            function changeCommunityPage(direction) {
+                const manager = activitiesManagerV2;
+                if (typeof manager === 'undefined') return;
+
+                const allActivities = manager.getAllActivities();
+                const communityActivities = allActivities.filter(a => a.type === 'community');
+                const totalPages = Math.ceil(communityActivities.length / itemsPerPage);
+
+                communityCurrentPage += direction;
+                if (communityCurrentPage < 1) communityCurrentPage = 1;
+                if (communityCurrentPage > totalPages) communityCurrentPage = totalPages;
+
+                loadActivitiesOnPage();
+            }
+            window.changeCommunityPage = changeCommunityPage;
+
+            function updateEducationPagination(totalItems, currentPage) {
+                const paginationContainer = document.getElementById('education-pagination');
+                const prevBtn = document.getElementById('education-prev-btn');
+                const nextBtn = document.getElementById('education-next-btn');
+                const pageInfo = document.getElementById('education-page-info');
+                const pageNumbers = document.getElementById('education-page-numbers');
+
+                if (!paginationContainer) return;
+
+                const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+                if (totalItems > itemsPerPage) {
+                    paginationContainer.classList.remove('hidden');
+                    pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+                    prevBtn.disabled = currentPage === 1;
+                    nextBtn.disabled = currentPage === totalPages;
+
+                    // Gerar números de página
+                    if (pageNumbers) {
+                        let pageNumbersHTML = '';
+                        const maxVisiblePages = 5;
+                        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+                        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+                        if (endPage - startPage < maxVisiblePages - 1) {
+                            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                        }
+
+                        if (startPage > 1) {
+                            pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToEducationPage(1)">1</button>`;
+                            if (startPage > 2) {
+                                pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                            }
+                        }
+
+                        for (let i = startPage; i <= endPage; i++) {
+                            pageNumbersHTML += `<button class="pagination-page-btn ${i === currentPage ? 'active' : ''}" onclick="goToEducationPage(${i})">${i}</button>`;
+                        }
+
+                        if (endPage < totalPages) {
+                            if (endPage < totalPages - 1) {
+                                pageNumbersHTML += `<span style="padding: 0 4px; color: #9ca3af;">...</span>`;
+                            }
+                            pageNumbersHTML += `<button class="pagination-page-btn" onclick="goToEducationPage(${totalPages})">${totalPages}</button>`;
+                        }
+
+                        pageNumbers.innerHTML = pageNumbersHTML;
+                    }
+                } else {
+                    paginationContainer.classList.add('hidden');
+                }
+            }
+
+            function goToEducationPage(page) {
+                const manager = activitiesManagerV2;
+                if (typeof manager === 'undefined') return;
+
+                const allActivities = manager.getAllActivities();
+                const educationActivities = allActivities.filter(a => a.type === 'education');
+                const totalPages = Math.ceil(educationActivities.length / itemsPerPage);
+
+                if (page >= 1 && page <= totalPages) {
+                    educationCurrentPage = page;
+                    loadActivitiesOnPage();
+                }
+            }
+            window.goToEducationPage = goToEducationPage;
+
+            function changeEducationPage(direction) {
+                const manager = activitiesManagerV2;
+                if (typeof manager === 'undefined') return;
+
+                const allActivities = manager.getAllActivities();
+                const educationActivities = allActivities.filter(a => a.type === 'education');
+                const totalPages = Math.ceil(educationActivities.length / itemsPerPage);
+
+                educationCurrentPage += direction;
+                if (educationCurrentPage < 1) educationCurrentPage = 1;
+                if (educationCurrentPage > totalPages) educationCurrentPage = totalPages;
+
+                loadActivitiesOnPage();
+            }
+            window.changeEducationPage = changeEducationPage;
+
+            async function loadActivitiesOnPage() {
+
+                const manager = activitiesManagerV2;
+
+                if (typeof manager === 'undefined') {
+                    setTimeout(loadActivitiesOnPage, 100);
+                    return;
+                }
+
+                if (typeof dbAPI !== 'undefined' && !dbAPI.useLocalStorage) {
+                    try {
+                        await manager.loadFromDatabase();
+                    } catch (error) {
+                    }
+                }
+
+                const allActivities = manager.getAllActivities();
+                const allCulturalActivities = allActivities.filter(a => a.type === 'cultural');
+                const allCommunityActivities = allActivities.filter(a => a.type === 'community');
+                const allEducationActivities = allActivities.filter(a => a.type === 'education');
+
+                const culturalGrid = document.getElementById('cultural-activities-grid');
+                if (culturalGrid) {
+                    const totalCultural = allCulturalActivities.length;
+                    const totalCulturalPages = Math.ceil(totalCultural / itemsPerPage);
+
+                    if (culturalCurrentPage > totalCulturalPages) culturalCurrentPage = totalCulturalPages;
+                    if (culturalCurrentPage < 1) culturalCurrentPage = 1;
+
+                    const startIndexCultural = (culturalCurrentPage - 1) * itemsPerPage;
+                    const endIndexCultural = startIndexCultural + itemsPerPage;
+                    const culturalActivities = allCulturalActivities.slice(startIndexCultural, endIndexCultural);
+
+                    if (culturalActivities.length > 0) {
+                        culturalGrid.innerHTML = culturalActivities.map(activity => {
+                            const imageUrl = activity.image || '';
+
+                            const hasImage = imageUrl &&
+                                imageUrl.length > 0 &&
+                                !imageUrl.includes('placeholder') &&
+                                !imageUrl.startsWith('data:') &&
+                                (imageUrl.startsWith('http://') || imageUrl.startsWith('https://') || imageUrl.startsWith('/'));
+
+                            let imageSrc = '';
+                            if (hasImage) {
+
+                                let normalizedUrl = imageUrl;
+                                if (imageUrl.includes('discordapp.com') || imageUrl.includes('discord.com')) {
+                                    normalizedUrl = imageUrl.split('?')[0];
+                                }
+                                imageSrc = normalizedUrl + (normalizedUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
+                            }
+
+                            return `
+                                <article class="activity-item">
+                                    <div class="activity-image">
+                                        ${hasImage && imageSrc ?
+                                    `<img src="${imageSrc.replace(/"/g, '&quot;')}" alt="${(activity.title || '').replace(/"/g, '&quot;')}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'activity-placeholder\\'><i class=\\'fas fa-calendar\\'></i></div>'">` :
+                                    `<div class="activity-placeholder"><i class="fas fa-calendar"></i></div>`
+                                }
+                                    </div>
+                                    <div class="activity-content">
+                                        <h3>${activity.title}</h3>
+                                        ${activity.description ? `<p>${activity.description}</p>` : ''}
+                                        ${activity.date ? `<span class="activity-date">${activity.date}</span>` : ''}
+                                    </div>
+                                </article>
+                            `;
+                        }).join('');
+                        updateCulturalPagination(totalCultural, culturalCurrentPage);
+                    } else {
+                        culturalGrid.innerHTML = '';
+                        updateCulturalPagination(0, 1);
+                    }
+                }
+
+                const communityGrid = document.getElementById('community-activities-grid');
+                if (communityGrid) {
+                    const totalCommunity = allCommunityActivities.length;
+                    const totalCommunityPages = Math.ceil(totalCommunity / itemsPerPage);
+
+                    if (communityCurrentPage > totalCommunityPages) communityCurrentPage = totalCommunityPages;
+                    if (communityCurrentPage < 1) communityCurrentPage = 1;
+
+                    const startIndexCommunity = (communityCurrentPage - 1) * itemsPerPage;
+                    const endIndexCommunity = startIndexCommunity + itemsPerPage;
+                    const communityActivities = allCommunityActivities.slice(startIndexCommunity, endIndexCommunity);
+
+                    if (communityActivities.length > 0) {
+                        communityGrid.innerHTML = communityActivities.map(activity => {
+                            const imageUrl = activity.image || '';
+                            const hasImage = imageUrl && imageUrl.length > 0 && !imageUrl.includes('placeholder');
+                            const MAX_DATA_URL_LENGTH = 2000000;
+                            const isDataUrlTooLarge = imageUrl.startsWith('data:') && imageUrl.length > MAX_DATA_URL_LENGTH;
+                            const isValidImage = hasImage && !isDataUrlTooLarge;
+
+                            let imageSrc = '';
+                            if (isValidImage) {
+                                if (imageUrl.startsWith('data:')) {
+                                    imageSrc = imageUrl;
+                                } else {
+                                    imageSrc = imageUrl + (imageUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
+                                }
+                            }
+
+                            return `
+                                <article class="activity-item">
+                                    <div class="activity-image">
+                                        ${hasImage && imageSrc ?
+                                    `<img src="${imageSrc.replace(/"/g, '&quot;')}" alt="${(activity.title || '').replace(/"/g, '&quot;')}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'activity-placeholder\\'><i class=\\'fas fa-calendar\\'></i></div>'">` :
+                                    `<div class="activity-placeholder"><i class="fas fa-calendar"></i></div>`
+                                }
+                                    </div>
+                                    <div class="activity-content">
+                                        <h3>${activity.title}</h3>
+                                        ${activity.description ? `<p>${activity.description}</p>` : ''}
+                                        ${activity.date ? `<span class="activity-date">${activity.date}</span>` : ''}
+                                    </div>
+                                </article>
+                            `;
+                        }).join('');
+                        updateCommunityPagination(totalCommunity, communityCurrentPage);
+                    } else {
+                        communityGrid.innerHTML = '';
+                        updateCommunityPagination(0, 1);
+                    }
+                }
+
+                const educationGrid = document.getElementById('education-activities-grid');
+                if (educationGrid) {
+                    const totalEducation = allEducationActivities.length;
+                    const totalEducationPages = Math.ceil(totalEducation / itemsPerPage);
+
+                    if (educationCurrentPage > totalEducationPages) educationCurrentPage = totalEducationPages;
+                    if (educationCurrentPage < 1) educationCurrentPage = 1;
+
+                    const startIndexEducation = (educationCurrentPage - 1) * itemsPerPage;
+                    const endIndexEducation = startIndexEducation + itemsPerPage;
+                    const educationActivities = allEducationActivities.slice(startIndexEducation, endIndexEducation);
+
+                    if (educationActivities.length > 0) {
+                        educationGrid.innerHTML = educationActivities.map(activity => {
+                            const imageUrl = activity.image || '';
+                            const hasImage = imageUrl && imageUrl.length > 0 && !imageUrl.includes('placeholder');
+                            const MAX_DATA_URL_LENGTH = 2000000;
+                            const isDataUrlTooLarge = imageUrl.startsWith('data:') && imageUrl.length > MAX_DATA_URL_LENGTH;
+                            const isValidImage = hasImage && !isDataUrlTooLarge;
+
+                            let imageSrc = '';
+                            if (isValidImage) {
+                                if (imageUrl.startsWith('data:')) {
+                                    imageSrc = imageUrl;
+                                } else {
+                                    imageSrc = imageUrl + (imageUrl.includes('?') ? '&' : '?') + 't=' + Date.now();
+                                }
+                            }
+
+                            return `
+                                <article class="activity-item">
+                                    <div class="activity-image">
+                                        ${hasImage && imageSrc ?
+                                    `<img src="${imageSrc.replace(/"/g, '&quot;')}" alt="${(activity.title || '').replace(/"/g, '&quot;')}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'activity-placeholder\\'><i class=\\'fas fa-calendar\\'></i></div>'">` :
+                                    `<div class="activity-placeholder"><i class="fas fa-calendar"></i></div>`
+                                }
+                                    </div>
+                                    <div class="activity-content">
+                                        <h3>${activity.title}</h3>
+                                        ${activity.description ? `<p>${activity.description}</p>` : ''}
+                                        ${activity.date ? `<span class="activity-date">${activity.date}</span>` : ''}
+                                    </div>
+                                </article>
+                            `;
+                        }).join('');
+                        updateEducationPagination(totalEducation, educationCurrentPage);
+                    } else {
+                        educationGrid.innerHTML = '';
+                        updateEducationPagination(0, 1);
+                    }
+                }
+            }
+
+            setTimeout(loadActivitiesOnPage, 200);
+            setTimeout(loadActivitiesOnPage, 1000);
+
+            function formatarDataBR(data) {
+                if (!data) return '';
+
+                const dataStr = String(data).trim();
+                if (!dataStr) return '';
+
+                if (/^\d{2}\/\d{2}\/\d{4}$/.test(dataStr)) {
+                    return dataStr;
+                }
+
+                if (/^\d{4}-\d{2}-\d{2}/.test(dataStr)) {
+                    const partes = dataStr.split('-');
+                    if (partes.length >= 3) {
+                        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+                    }
+                }
+
+                try {
+                    const dataObj = new Date(dataStr);
+                    if (!isNaN(dataObj.getTime())) {
+                        const dia = String(dataObj.getDate()).padStart(2, '0');
+                        const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+                        const ano = dataObj.getFullYear();
+                        return `${dia}/${mes}/${ano}`;
+                    }
+                } catch (e) {
+
+                }
+
+                return dataStr;
+            }
+
+            async function loadConcursosOnPage() {
+
+                const manager = concursosManagerV2;
+
+                if (typeof manager === 'undefined') {
+                    setTimeout(loadConcursosOnPage, 100);
+                    return;
+                }
+
+                if (typeof dbAPI !== 'undefined' && !dbAPI.useLocalStorage) {
+                    try {
+                        await manager.loadFromDatabase();
+                    } catch (error) {
+                    }
+                }
+
+                const concursosGrid = document.getElementById('concursos-grid');
+                if (concursosGrid) {
+
+                    const currentUser = auth.getCurrentUser();
+                    const userRole = currentUser ? (currentUser.role || null) : null;
+
+                    let allConcursos = manager.getAllConcursos();
+                    const restrictedRoles = ['user'];
+
+                    const normalizedRole = userRole ? String(userRole).trim().toLowerCase() : null;
+
+                    let concursos = allConcursos;
+                    if (!normalizedRole || restrictedRoles.includes(normalizedRole)) {
+
+                        concursos = allConcursos.filter(c => {
+                            const tipo = String(c.tipo || '').trim().toLowerCase();
+                            const isAberto = tipo === 'aberto' || tipo === '' || c.tipo === null || c.tipo === undefined;
+                            return isAberto;
+                        });
+                    } else {
+
+                    }
+
+                    if (concursos.length > 0) {
+                        concursosGrid.innerHTML = concursos.map(concurso => {
+                            const imageUrl = concurso.image || '';
+                            const hasImage = imageUrl && !imageUrl.includes('placeholder') && !imageUrl.startsWith('data:');
+
+                            const imageSrc = hasImage ? (imageUrl + (imageUrl.includes('?') ? '&' : '?') + 't=' + Date.now()) : '';
+
+                            const dataPostagemFormatada = formatarDataBR(concurso.dataPostagem);
+                            const dataConcursoFormatada = formatarDataBR(concurso.dataConcurso);
+
+                            return `
+                        <article class="concurso-item">
+                            <div class="concurso-image">
+                                ${hasImage ?
+                                    `<img src="${imageSrc}" alt="${concurso.title}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; object-position: center;" onerror="this.parentElement.innerHTML='<div class=\\'concurso-placeholder\\'><i class=\\'fas fa-clipboard-list\\'></i></div>'">` :
+                                    `<div class="concurso-placeholder"><i class="fas fa-clipboard-list"></i></div>`
+                                }
+                            </div>
+                            <div class="concurso-content">
+                                <h3>${concurso.title}</h3>
+                                ${concurso.description ? `<p>${concurso.description}</p>` : ''}
+                                <div class="concurso-dates">
+                                    ${dataPostagemFormatada ? `<span class="concurso-date"><strong>Postado em:</strong> ${dataPostagemFormatada}</span>` : ''}
+                                    ${dataConcursoFormatada ? `<span class="concurso-date"><strong>Data do Concurso:</strong> ${dataConcursoFormatada}</span>` : ''}
+                                </div>
+                                <div class="concurso-links">
+                                    ${(function () {
+
+                                    let provaLiberada = false;
+                                    let provaFechada = false;
+                                    let mensagem = '';
+                                    let botaoAprovados = '';
+                                    let mensagemAprovados = '';
+
+                                    const linkProva = concurso.linkProva;
+                                    const linkAprovados = concurso.linkAprovados;
+                                    const agora = new Date();
+
+
+                                    if (linkProva) {
+
+                                        const dataHoraProva = concurso.dataHoraProva;
+                                        if (dataHoraProva) {
+                                            const dataHoraLiberacao = new Date(dataHoraProva);
+                                            provaLiberada = agora >= dataHoraLiberacao;
+                                        } else {
+
+                                            provaLiberada = true;
+                                        }
+
+
+                                        const dataHoraFecharProva = concurso.dataHoraFecharProva;
+                                        if (dataHoraFecharProva) {
+                                            const dataHoraFechamento = new Date(dataHoraFecharProva);
+                                            provaFechada = agora > dataHoraFechamento;
+                                        }
+
+
+                                        if (provaFechada) {
+                                            mensagem = `<span class="btn-concurso btn-prova" style="opacity: 0.5; cursor: not-allowed; background-color: #dc2626; color: white;"><i class="fas fa-lock"></i> Prova encerrada em ${new Date(dataHoraFecharProva).toLocaleString('pt-BR')}</span>`;
+                                        } else if (provaLiberada) {
+                                            mensagem = `<a href="${linkProva}" target="_blank" class="btn-concurso btn-prova"><i class="fas fa-file-alt"></i> Acessar Prova</a>`;
+                                        } else if (dataHoraProva) {
+                                            mensagem = `<span class="btn-concurso btn-prova" style="opacity: 0.5; cursor: not-allowed; background-color: #ccc;"><i class="fas fa-clock"></i> Prova será liberada em ${new Date(dataHoraProva).toLocaleString('pt-BR')}</span>`;
+                                        }
+                                    }
+
+
+                                    const listaAprovadosTexto = concurso.listaAprovadosTexto || '';
+
+
+                                    if (dataDivulgacaoAprovados) {
+                                        const dataDivulgacao = new Date(dataDivulgacaoAprovados);
+                                        const aprovadosDivulgados = agora >= dataDivulgacao;
+
+                                        if (aprovadosDivulgados) {
+
+                                            if (listaAprovadosTexto && listaAprovadosTexto.trim().length > 0) {
+
+                                                const textoBase64 = btoa(unescape(encodeURIComponent(listaAprovadosTexto)));
+                                                botaoAprovados = `<button onclick="mostrarListaAprovadosFromBase64('${textoBase64}')" class="btn-concurso btn-apostila" style="background-color: #22c55e; color: white; border: none; cursor: pointer;"><i class="fas fa-list-check"></i> Lista de Aprovados</button>`;
+                                            } else if (linkAprovados) {
+
+                                                botaoAprovados = `<a href="${linkAprovados}" target="_blank" class="btn-concurso btn-apostila" style="background-color: #22c55e; color: white;"><i class="fas fa-list-check"></i> Lista de Aprovados</a>`;
+                                            }
+                                        } else {
+
+                                            mensagemAprovados = `<span class="btn-concurso btn-apostila" style="opacity: 0.5; cursor: not-allowed; background-color: #6c757d; color: white;"><i class="fas fa-clock"></i> A Lista de aprovados será divulgada em ${new Date(dataDivulgacaoAprovados).toLocaleString('pt-BR')}</span>`;
+                                        }
+                                    } else {
+
+                                        if ((provaFechada || !linkProva) && (linkAprovados || (listaAprovadosTexto && listaAprovadosTexto.trim().length > 0))) {
+                                            if (listaAprovadosTexto && listaAprovadosTexto.trim().length > 0) {
+
+                                                const textoBase64 = btoa(unescape(encodeURIComponent(listaAprovadosTexto)));
+                                                botaoAprovados = `<button onclick="mostrarListaAprovadosFromBase64('${textoBase64}')" class="btn-concurso btn-apostila" style="background-color: #22c55e; color: white; border: none; cursor: pointer;"><i class="fas fa-list-check"></i> Lista de Aprovados</button>`;
+                                            } else if (linkAprovados) {
+
+                                                botaoAprovados = `<a href="${linkAprovados}" target="_blank" class="btn-concurso btn-apostila" style="background-color: #22c55e; color: white;"><i class="fas fa-list-check"></i> Lista de Aprovados</a>`;
+                                            }
+                                        }
+                                    }
+
+                                    return mensagem + (botaoAprovados ? botaoAprovados : '') + (mensagemAprovados ? mensagemAprovados : '');
+                                })()}
+                                    ${concurso.linkApostila ? `<a href="${concurso.linkApostila}" target="_blank" class="btn-concurso btn-apostila"><i class="fas fa-book"></i> Apostila</a>` : ''}
+                                </div>
+                            </div>
+                        </article>
+                            `;
+                        }).join('');
+                    } else {
+
+                        const emptyMsg = concursosGrid.querySelector('.empty-concursos');
+                        if (!emptyMsg) {
+                            concursosGrid.innerHTML = `
+                                <div class="empty-concursos" style="text-align: center; padding: 60px 20px; color: #999; grid-column: 1 / -1;">
+                                    <i class="fas fa-clipboard-list" style="font-size: 64px; margin-bottom: 20px; opacity: 0.3;"></i>
+                                    <h3>Nenhum concurso disponível no momento</h3>
+                                    <p>Novos concursos serão publicados em breve</p>
+                                </div>
+                            `;
+                        }
+                    }
+                }
+            }
+
+            async function loadNumbersOnPage() {
+
+                const manager = pmNumbersManagerV2;
+
+                if (typeof manager === 'undefined') {
+                    setTimeout(loadNumbersOnPage, 100);
+                    return;
+                }
+
+                if (typeof dbAPI === 'undefined') {
+                    setTimeout(loadNumbersOnPage, 100);
+                    return;
+                }
+
+                if (!dbAPI.configChecked && typeof dbAPI.checkConfiguration === 'function') {
+                    try {
+                        await dbAPI.checkConfiguration();
+                    } catch (error) {
+
+                    }
+                }
+
+                if (!manager.initialized) {
+                    try {
+                        await manager.init();
+                    } catch (error) {
+                        console.error('Erro ao inicializar manager:', error);
+                    }
+                }
+
+                try {
+
+                    manager.cache = null;
+                    await manager.loadFromDatabase();
+                } catch (error) {
+                    console.error('Erro ao carregar números do banco:', error);
+
+                }
+
+                const numbersGrid = document.getElementById('numbers-grid');
+                const periodEl = document.getElementById('numbers-period');
+
+                if (!numbersGrid) {
+                    return;
+                }
+
+                if (!periodEl) {
+                    return;
+                }
+
+                const period = manager.getPeriod ? manager.getPeriod() : '';
+                const numbers = manager.getNumbers ? manager.getNumbers() : [];
+
+                if (period) {
+                    periodEl.textContent = `(${period})`;
+                } else {
+                    periodEl.textContent = '';
+                }
+
+                if (numbers && numbers.length > 0) {
+
+                    numbersGrid.style.display = '';
+                    numbersGrid.style.gridTemplateColumns = '';
+                    numbersGrid.style.gap = '';
+                    numbersGrid.style.width = '';
+
+                    numbersGrid.innerHTML = numbers.map(num => {
+                        const value = escapeHtml(num.value || '');
+                        const label = escapeHtml(num.label || '');
+                        const description = escapeHtml(num.description || '');
+
+                        return `
+                            <div class="number-item">
+                                <div class="number-value">${value}</div>
+                                ${label ? `<div class="number-unit">${label}</div>` : ''}
+                                ${description ? `<div class="number-description">${description}</div>` : ''}
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+
+                    numbersGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #999;">
+                            <i class="fas fa-chart-bar" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3;"></i>
+                            <p>Nenhum número cadastrado. Acesse o painel administrativo para adicionar números.</p>
+                            <p style="margin-top: 10px; font-size: 12px; color: #666;">Ou execute o arquivo SQL: database/dados-iniciais-numeros-pm.sql</p>
+                        </div>
+                    `;
+                }
+            }
+
+            loadNumbersOnPage();
+
+            setTimeout(loadNumbersOnPage, 500);
+            setTimeout(loadNumbersOnPage, 1500);
+        });
+
+        function mostrarListaAprovadosFromBase64(textoBase64) {
+            const modal = document.getElementById('lista-aprovados-modal');
+            const content = document.getElementById('lista-aprovados-content');
+            if (modal && content) {
+                try {
+
+                    const textoDecodificado = decodeURIComponent(escape(atob(textoBase64)));
+                    content.textContent = textoDecodificado;
+                    modal.style.display = 'flex';
+                } catch (e) {
+                    console.error('Erro ao decodificar lista de aprovados:', e);
+                    content.textContent = 'Erro ao carregar lista de aprovados.';
+                    modal.style.display = 'flex';
+                }
+            }
+        }
+
+        function mostrarListaAprovados(texto) {
+            const modal = document.getElementById('lista-aprovados-modal');
+            const content = document.getElementById('lista-aprovados-content');
+            if (modal && content) {
+                content.textContent = texto;
+                modal.style.display = 'flex';
+            }
+        }
+
+        document.addEventListener('click', function (e) {
+            const modal = document.getElementById('lista-aprovados-modal');
+            if (modal && e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+
+    <div id="lista-aprovados-modal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto; background: white; border-radius: 12px; padding: 30px;">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #1e3a8a;">Lista de Aprovados</h2>
+                <button class="close-modal" onclick="document.getElementById('lista-aprovados-modal').style.display = 'none'" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">×</button>
+            </div>
+            <div id="lista-aprovados-content" style="padding: 20px 0; white-space: pre-wrap; font-family: monospace; line-height: 1.8; color: #333;">
+
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+    </style>
+
+
+</body></html>
